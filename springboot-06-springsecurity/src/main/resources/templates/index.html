@@ -19,12 +19,23 @@
 
             <!--登录注销-->
             <div class="right menu">
-                <!--未登录-->
-                <div sec:authorize!="isAuthenticated()">
-                    <a class="item" th:href="@{/toLogin}" >
+
+                <!--如果未登录-->
+                <div sec:authorize="!isAuthenticated()">
+                    <a class="item" th:href="@{/toLogin}">
                         <i class="address card icon"></i> 登录
                     </a>
                 </div>
+
+                <!--如果已登录-->
+                <div sec:authorize="isAuthenticated()">
+                    <a class="item">
+                        <i class="address card icon"></i>
+                        用户名：<span sec:authentication="principal.username"></span>
+                        角色：<span sec:authentication="principal.authorities"></span>
+                    </a>
+                </div>
+
                 <div sec:authorize="isAuthenticated()">
                     <a class="item" th:href="@{/logout}">
                         <i class="address card icon"></i> 注销
@@ -43,7 +54,8 @@
     <div>
         <br>
         <div class="ui three column stackable grid">
-            <div class="column">
+            <!-- sec:authorize="hasRole('vip1')" -->
+            <div class="column" sec:authorize="hasRole('vip1')">
                 <div class="ui raised segment">
                     <div class="ui">
                         <div class="content">
@@ -57,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="column">
+            <div class="column" sec:authorize="hasRole('vip2')">
                 <div class="ui raised segment">
                     <div class="ui">
                         <div class="content">
@@ -71,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="column">
+            <div class="column" sec:authorize="hasRole('vip3')">
                 <div class="ui raised segment">
                     <div class="ui">
                         <div class="content">

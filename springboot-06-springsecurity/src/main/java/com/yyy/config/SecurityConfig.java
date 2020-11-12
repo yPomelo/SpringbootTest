@@ -19,10 +19,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/level2/**").hasRole("vip2")
                 .antMatchers("/level3/**").hasRole("vip3");
         //没有权限默认会到登陆页面，需要开启登录的页面
-        http.formLogin();
+        //loginPage() – 自定义登录页面
+        //loginProcessingUrl() – 提交username和password的URL
+        http.formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .loginPage("/toLogin")//走servlet 返回到了login页面
+                .loginProcessingUrl("/login");
+        http.csrf().disable();//关闭csrf功能:跨站请求伪造,默认只能通过post方式提交logout请求
         //注销，
         http.logout().logoutSuccessUrl("/");
-
+        //定制记住我的参数！
+        http.rememberMe().rememberMeParameter("remember");
 
     }
 
